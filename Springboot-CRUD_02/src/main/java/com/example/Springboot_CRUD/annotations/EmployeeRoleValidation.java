@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.FIELD , ElementType.PARAMETER})
 @Constraint(validatedBy = {EmployeeRoleValidator.class})
 public @interface EmployeeRoleValidation {
     String message() default "Role of Employee can either be USER or ADMIN";

@@ -1,6 +1,5 @@
 package com.example.Springboot_CRUD.dto;
 
-import com.example.Springboot_CRUD.annotations.EmployeeRoleValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +32,6 @@ public class EmployeeDTO {
 
     @NotBlank(message = "Role of the employee cannot be blank")
 //    @Pattern(regexp = "^(ADMIN|USER)$", message = "Role of Employee can either be USER or ADMIN")
-    @EmployeeRoleValidation
     private String role; //ADMIN, USER
 
     @NotNull(message = "Salary of Employee should be not null")
