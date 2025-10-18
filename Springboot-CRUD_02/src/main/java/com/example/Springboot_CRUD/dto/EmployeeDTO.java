@@ -47,6 +47,7 @@ public class EmployeeDTO {
     private LocalDate dateOfJoining; // not allow past date like 2025-10-18 will work
 
     @AssertTrue(message = "Employee should be active")
+    @NotNull(message = "isActive can not be null")
     @JsonProperty("isActive")
     private Boolean isActive;
 
