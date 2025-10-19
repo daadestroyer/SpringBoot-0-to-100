@@ -2,6 +2,7 @@ package com.example.Springboot_CRUD.services;
 
 import com.example.Springboot_CRUD.dto.EmployeeDTO;
 import com.example.Springboot_CRUD.entities.EmployeeEntity;
+import com.example.Springboot_CRUD.exceptions.ResourceNotFoundException;
 import com.example.Springboot_CRUD.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -62,7 +63,7 @@ public class EmployeeService {
 
     public void isExistsByEmployeeId(Long employeeId) {
         boolean exists = employeeRepository.existsById(employeeId);
-        if(!exists) {
+        if (!exists) {
             System.out.println("not found");
         }
     }
@@ -74,9 +75,22 @@ public class EmployeeService {
     }
 
 
-
     public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
-        return null;
+        isExistsByEmployeeId(employeeId);
+        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + employeeId));
+
+        updates.forEach((field, value) -> {
+            try {
+                Field fieldToBeUpdated = EmployeeEntity.class.getDeclaredField(field);
+                fieldToBeUpdated.setAccessible(true);
+                fieldToBeUpdated.set(employeeEntity, value);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException("Failed to update field: " + field, e);
+            }
+        });
+
+        return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
     }
 }
 
