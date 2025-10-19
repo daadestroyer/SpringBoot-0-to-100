@@ -1,6 +1,7 @@
 package com.example.Springboot_CRUD.dto;
 
 import com.example.Springboot_CRUD.annotations.EmployeeRoleValidation;
+import com.example.Springboot_CRUD.annotations.ValidPassword;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,9 @@ public class EmployeeDTO {
     @NotNull(message = "isActive can not be null")
     @JsonProperty("isActive")
     private Boolean isActive;
+
+    @ValidPassword
+    private String password;
 
     public Long getId() {
         return id;
