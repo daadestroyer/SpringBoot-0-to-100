@@ -5,7 +5,9 @@ import com.example.Springboot_CRUD.entities.EmployeeEntity;
 import com.example.Springboot_CRUD.exceptions.ResourceNotFoundException;
 import com.example.Springboot_CRUD.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.util.ReflectionUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -34,12 +36,9 @@ public class EmployeeService {
         return employeeRepository.findById(id).map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class));
     }
 
-    public List<EmployeeDTO> getAllEmployees() {
-        List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
-        return employeeEntities
-                .stream()
-                .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeDTO.class))
-                .collect(Collectors.toList());
+    public Page<EmployeeDTO> getAllEmployees(Pageable pageable) {
+        Page<EmployeeEntity> page = employeeRepository.findAll(pageable);
+        return page.map(entity -> modelMapper.map(entity, EmployeeDTO.class));
     }
 
     public EmployeeDTO createNewEmployee(EmployeeDTO inputEmployee) {
