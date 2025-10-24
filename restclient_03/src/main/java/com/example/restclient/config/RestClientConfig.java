@@ -12,9 +12,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Configuration
-
 public class RestClientConfig {
-
     @Value("${hotelService.base.url}")
     private String BASE_URL;
 
@@ -27,3 +25,5 @@ public class RestClientConfig {
                 .build();
     }
 }
+
+
